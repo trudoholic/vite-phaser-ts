@@ -9,8 +9,8 @@ import GameScene from './game/scenes/GameScene'
 // const { height, width } = useWindowSize()
 
 const handleClick = () => {
-    const scene = phaserGame.scene.keys.GameScene as GameScene
-    scene.createEmitter()
+    const scene = phaserGame?.scene.keys.GameScene as GameScene
+    scene?.createEmitter()
 }
 
 function App() {

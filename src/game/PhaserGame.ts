@@ -11,7 +11,7 @@ const config: Phaser.Types.Core.GameConfig = {
         width: window.innerWidth,
         height: window.innerHeight,
 
-        // width: 800, height: 600,
+        // width: 800, height: 600, //[*]
     },
     physics: {
         default: 'arcade',
@@ -22,5 +22,20 @@ const config: Phaser.Types.Core.GameConfig = {
     scene: [GameScene],
 }
 
-const phaserGame = new Phaser.Game(config)
+/*/
+let phaserGame: Phaser.Game | null = null
+window.addEventListener('load', () => {
+    phaserGame = new Phaser.Game(config)
+
+    // added this because it did not always automatically work in Phaser 3.16.2
+    // FullScreenEvent(() => resize(game))
+
+    // window.addEventListener('resize', () => {
+    //     resize(game)
+    // })
+    // resize(game)
+})
+/*/
+
+const phaserGame = new Phaser.Game(config) //[*]
 export default phaserGame
