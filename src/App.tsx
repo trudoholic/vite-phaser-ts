@@ -1,16 +1,15 @@
 // import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
 import './App.css'
 
+import eventEmitter from './emitter'
 import phaserGame from './game/PhaserGame'
-import GameScene from './game/scenes/GameScene'
 
 // import useWindowSize from "../useWindowSize"
 // const { height, width } = useWindowSize()
 
+const game = phaserGame
 const handleClick = () => {
-    const scene = phaserGame?.scene.keys.GameScene as GameScene
-    scene?.createEmitter()
+    eventEmitter.emit('createEmitter', 200, 300)
 }
 
 function App() {

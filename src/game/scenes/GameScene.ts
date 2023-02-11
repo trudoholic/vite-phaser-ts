@@ -1,9 +1,17 @@
 import Phaser from 'phaser'
+import eventEmitter from '../../emitter'
 import reactLogo from '../../assets/react.svg'
 
 export default class GameScene extends Phaser.Scene {
     constructor() {
         super('GameScene')
+
+        eventEmitter.on('createEmitter', this.handler, this)
+    }
+
+    handler (x: number, y: number) {
+        console.log(x, y)
+        this.createEmitter()
     }
 
     preload() {
