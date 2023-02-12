@@ -1,25 +1,28 @@
-// import { useState } from 'react'
+import { useRef } from 'react'
 import './App.css'
 
-import eventEmitter from './emitter'
-import phaserGame from './game/PhaserGame'
+import { useGame } from "./hooks"
+import gameConfig from "./game"
 
+import eventEmitter from './emitter'
 // import useWindowSize from "./useWindowSize"
 
-const game = phaserGame
 const handleClick = () => {
     eventEmitter.emit('createEmitter', 200, 300)
 }
 
 function App() {
-    console.log(game)
     // const { height, width } = useWindowSize()
     // const [count, setCount] = useState(0)
+
+    const parentEl = useRef<HTMLDivElement>(null)
+    const game = useGame(gameConfig, parentEl)
+    game && console.log(game)
 
     return (
         <div className="App">
             <h1>Hello World</h1>
-            <div id="phaser-container"/>
+            <div ref={parentEl} className="phaser" />
             <button className="App-button" onClick={handleClick}>Click me</button>
         </div>
     )
