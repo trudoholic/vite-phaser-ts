@@ -1,3 +1,6 @@
+/* eslint-disable class-methods-use-this */
+// noinspection JSUnusedGlobalSymbols
+
 import Phaser from 'phaser'
 import eventEmitter from '../../emitter'
 import reactLogo from '../../assets/react.svg'
