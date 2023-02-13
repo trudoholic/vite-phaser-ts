@@ -3,13 +3,8 @@ import './App.css'
 
 import { useGame } from "./hooks"
 import gameConfig from "./game"
-
-import eventEmitter from './emitter'
+import { handleClick } from "./game/utils"
 // import useWindowSize from "./useWindowSize"
-
-const handleClick = () => {
-    eventEmitter.emit('createEmitter', 200, 300)
-}
 
 function App() {
     // const { height, width } = useWindowSize()
