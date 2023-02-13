@@ -15,7 +15,7 @@ export function useGame (
         }
 
         return () => {
-            eventEmitter.off('createEmitter')
+            eventEmitter.destroy()
             gameRef.current?.destroy(true);
             gameRef.current = null;
         }
