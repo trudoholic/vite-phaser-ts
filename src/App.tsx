@@ -2,8 +2,8 @@ import { useRef } from 'react'
 import './App.css'
 
 import { useGame } from "./hooks"
-import gameConfig from "./game_01"//_01
-import { handleClick } from "./game_01/utils"
+import gameConfig from "./game_02"
+import { handleClick } from "./game_02/utils"
 // import useWindowSize from "./useWindowSize"
 
 function App() {
