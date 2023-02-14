@@ -7,6 +7,7 @@ export default class GameScene extends Phaser.Scene {
     private ball: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody | undefined
     private power: number = 0
     private timer: Phaser.Time.TimerEvent | undefined
+    private meter: Phaser.GameObjects.Image | undefined;
 
     constructor() {
         super('GameScene')
@@ -15,6 +16,7 @@ export default class GameScene extends Phaser.Scene {
     preload() {
         this.load.image("ball", "assets/01/ball.png")
         this.load.image("block", "assets/01/block.png")
+        this.load.image("green", "assets/01/green.png")
     }
 
     create() {
@@ -34,6 +36,10 @@ export default class GameScene extends Phaser.Scene {
         // ground.alpha = .5
         this.physics.add.collider(ball, ground)
         ground.setImmovable()
+
+        this.meter = this.add.image(25,480,"green")
+        this.meter.setOrigin(1, 1)
+        this.meter.scaleY = 0
     }
 
     update() {
@@ -54,13 +60,15 @@ export default class GameScene extends Phaser.Scene {
 
     endJump() {
         this.timer?.remove()
-        this.ball?.setVelocityY(-this.power * 100)
+        this.ball?.setVelocityY(-this.power * 50)
         this.power = 0
+        if (this.meter) this.meter.scaleY = 0
     }
 
     tick() {
         if (this.power < 5) {
             this.power += .1
+            if (this.meter) this.meter.scaleY = this.power
         }
     }    
 
