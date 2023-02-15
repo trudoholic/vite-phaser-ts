@@ -40,6 +40,10 @@ export default class GameScene extends Phaser.Scene {
         this.meter = this.add.image(25,480,"green")
         this.meter.setOrigin(1, 1)
         this.meter.scaleY = 0
+
+        let healthBar = this.makeBar(10,10,0x2ecc71)
+        this.setValue(healthBar,100)
+
     }
 
     update() {
@@ -70,6 +74,19 @@ export default class GameScene extends Phaser.Scene {
             this.power += .1
             if (this.meter) this.meter.scaleY = this.power
         }
-    }    
+    }
+
+    makeBar(x: number, y: number,color: number) {
+        let bar = this.add.graphics()
+        bar.fillStyle(color, 1)
+        bar.fillRect(0, 0, 200, 25)
+        bar.x = x
+        bar.y = y
+        return bar
+    }
+
+    setValue(bar: Phaser.GameObjects.Graphics, percentage: number) {
+        bar.scaleX = percentage / 100
+    }
 
 }
