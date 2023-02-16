@@ -11,13 +11,16 @@ export default class GameScene extends Phaser.Scene {
     private theSquare: Phaser.GameObjects.Sprite | undefined
     private isJumping = false
     private jumpTime = 0
+    private spikesGroup: Phaser.GameObjects.Group | undefined
 
     constructor() {
         super('GameScene')
+        this.resetSquare = this.resetSquare.bind(this)
     }
 
     preload() {
         this.load.image("square", "assets/03/square.png")
+        this.load.image("spike", "assets/03/spike.png")
     }
 
     create() {
@@ -25,13 +28,26 @@ export default class GameScene extends Phaser.Scene {
 
         const floor = this.add.graphics()
         floor.fillStyle(0x440044, 1)
-        for(let i = 0; i < this.floorY.length; i++){
+        for (let i = 0; i < this.floorY.length; i++) {
             floor.fillRect(levelStart, this.floorY[i], levelEnd, floorHeight)
         }
 
         const imgHeight = this.textures.get('square').getSourceImage().height
-        this.theSquare = this.add.sprite(levelStart, this.floorY[this.currentFloor] - imgHeight / 2, "square")
+        this.theSquare = this.physics.add.sprite(
+            levelStart, this.floorY[this.currentFloor] - imgHeight / 2, "square")
         this.theSquare.setOrigin(0.5,0.5)
+
+        const spikesAmount = 3
+        this.spikesGroup = this.physics.add.group()
+        const spikeHeight = this.textures.get('spike').getSourceImage().height
+        for (let i = 0; i < spikesAmount; i++) {
+            const randomFloor = Math.floor(Math.random() * this.floorY.length)
+            let theSpike = this.add.sprite(Math.floor(Math.random() * 400) + 120,
+                (this.floorY)[randomFloor] - spikeHeight / 2, "spike")
+            theSpike.setOrigin(0.5,0.5)
+            this.spikesGroup.add(theSpike)
+        }
+        this.physics.add.overlap(this.theSquare, this.spikesGroup, this.onCollision, void 0, this)
 
         this.input.on('pointerdown', this.jump, this)
     }
@@ -48,11 +64,7 @@ export default class GameScene extends Phaser.Scene {
                 if (this.currentFloor > this.floorY.length - 1) {
                     this.currentFloor = 0
                 }
-                mod = this.currentFloor % 2
-                this.isJumping = false
-                this.theSquare.rotation = 0
-                this.theSquare.x = levelEnd * mod + levelStart * (1 - mod)
-                this.theSquare.y = (this.floorY)[this.currentFloor] - imgHeight / 2
+                this.resetSquare()
             }
 
             if (this.isJumping) {
@@ -78,6 +90,21 @@ export default class GameScene extends Phaser.Scene {
         if (! this.isJumping) {
             this.jumpTime = 0
             this.isJumping = true
+        }
+    }
+
+    onCollision() {
+        this.resetSquare()
+    }
+
+    resetSquare() {
+        if (this.theSquare) {
+            const imgHeight = this.textures.get('square').getSourceImage().height
+            const mod = this.currentFloor % 2
+            this.isJumping = false
+            this.theSquare.rotation = 0
+            this.theSquare.x = levelEnd * mod + levelStart * (1 - mod)
+            this.theSquare.y = (this.floorY)[this.currentFloor] - imgHeight/2
         }
     }
 
