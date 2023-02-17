@@ -37,16 +37,27 @@ export default class GameScene extends Phaser.Scene {
             levelStart, this.floorY[this.currentFloor] - imgHeight / 2, "square")
         this.theSquare.setOrigin(0.5,0.5)
 
-        const spikesAmount = 3
+        /*/
+        const spikesAmount = 5
         this.spikesGroup = this.physics.add.group()
         const spikeHeight = this.textures.get('spike').getSourceImage().height
         for (let i = 0; i < spikesAmount; i++) {
-            const randomFloor = Math.floor(Math.random() * this.floorY.length)
-            let theSpike = this.add.sprite(Math.floor(Math.random() * 400) + 120,
+            const randomFloor = Phaser.Math.Between(0, this.floorY.length - 1)
+            let theSpike = this.add.sprite(Phaser.Math.Between(120, 520),
                 (this.floorY)[randomFloor] - spikeHeight / 2, "spike")
             theSpike.setOrigin(0.5,0.5)
             this.spikesGroup.add(theSpike)
         }
+        /*/
+        this.spikesGroup = this.physics.add.group()
+        const spikeHeight = this.textures.get('spike').getSourceImage().height
+        for (let i = 0; i < this.floorY.length; i++) {
+            let theSpike = this.add.sprite(Phaser.Math.Between(120, 520),
+                (this.floorY)[i] - spikeHeight / 2, "spike")
+            theSpike.setOrigin(0.5,0.5)
+            this.spikesGroup.add(theSpike)
+        }
+        //
         this.physics.add.overlap(this.theSquare, this.spikesGroup, this.onCollision, void 0, this)
 
         this.input.on('pointerdown', this.jump, this)
