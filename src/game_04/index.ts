@@ -3,7 +3,7 @@ import GameScene from "./scenes/GameScene"
 
 const gameConfig: Types.Core.GameConfig = {
     type: Phaser.AUTO,
-    width: 640, height: 480,
+    width: 720, height: 480,
     backgroundColor: '#336699',
     /*/
     scale: {
@@ -18,7 +18,7 @@ const gameConfig: Types.Core.GameConfig = {
         default: 'arcade',
         arcade: {
             debug: true,
-            // gravity: { y: 600 },
+            // gravity: { y: 100 },
         },
     },
     scene: [GameScene],
