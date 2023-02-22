@@ -99,6 +99,7 @@ export default class GameScene extends Phaser.Scene {
             onComplete: (tween) => {
                 this.crateGroup!.killAndHide(crate)
                 this.tweens.killTweensOf(crate)
+                // crate.body.enable = false
                 crate.disableBody(true, true)
             }
         })
