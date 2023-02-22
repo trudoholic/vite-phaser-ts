@@ -83,8 +83,9 @@ export default class GameScene extends Phaser.Scene {
         crate.setVisible(true)
         crate.setActive(true)
         crate.setInteractive({ useHandCursor: true })
+        crate.enableBody(true, x, y, true, true)
         crate.body.setCollideWorldBounds(true)
-        crate.body.enable = true
+        crate.body.bounce.y = 0.25
         return crate
     }
 
@@ -98,7 +99,7 @@ export default class GameScene extends Phaser.Scene {
             onComplete: (tween) => {
                 this.crateGroup!.killAndHide(crate)
                 this.tweens.killTweensOf(crate)
-                crate.body.enable = false
+                crate.disableBody(true, true)
             }
         })
     }
