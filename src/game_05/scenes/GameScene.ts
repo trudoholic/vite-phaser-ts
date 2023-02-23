@@ -1,8 +1,12 @@
 /* eslint-disable class-methods-use-this */
 // noinspection JSUnusedGlobalSymbols
 
+import Phaser from 'phaser'
+
+type TCrate = Phaser.Physics.Matter.Image
+
 export default class GameScene extends Phaser.Scene {
-    private crate?: Phaser.Physics.Matter.Image
+    private crate?: TCrate
 
     constructor() {
         super('GameScene')
@@ -26,7 +30,8 @@ export default class GameScene extends Phaser.Scene {
             // .setAngle(10)
             // .setFriction(0)
 
-        this.input.once('pointerup', () => platform.destroy())
+        // this.input.once('pointerup', () => platform.destroy())
+        this.input.on('pointerup', this.handlePointerUp, this)
 
     }
 
@@ -37,14 +42,37 @@ export default class GameScene extends Phaser.Scene {
         // }
     }
 
+    handlePointerUp(pointer: Phaser.Input.Pointer) {
+        const a = this.input.hitTestPointer(pointer)
+        console.log('[', a.length, ']', a)
+        if (a.length) {
+            this.despawnCrate(a[0] as TCrate)
+        }
+        else {
+            this.spawnCrate(pointer.x, pointer.y)
+        }
+    }
+
     private spawnCrate(x: number, y: number) {
         const crate = this.matter.add.image(x, y, 'crate')
         crate.setFrictionAir(0.001)
         crate.setBounce(0.6)
+        crate.setInteractive({ useHandCursor: true })
         return crate
     }
 
-    private despawnCrate(crate: any) {
+    private despawnCrate(crate: TCrate) {
+        // crate.destroy()
+        this.tweens.add({
+            targets: crate,
+            // scale: 2,
+            alpha: 0,
+            duration: Phaser.Math.Between(500, 1500),
+            onComplete: (tween) => {
+                this.tweens.killTweensOf(crate)
+                crate.destroy()
+            }
+        })
     }
 
 }
