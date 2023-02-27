@@ -4,10 +4,11 @@
 import Phaser from 'phaser'
 
 export default class GameScene extends Phaser.Scene {
-    private ball: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody | undefined
+    private ball?: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
     private power: number = 0
-    private timer: Phaser.Time.TimerEvent | undefined
-    private meter: Phaser.GameObjects.Image | undefined;
+    private timer?: Phaser.Time.TimerEvent
+    private meter?: Phaser.GameObjects.Image
+    private zone?: Phaser.GameObjects.Zone
 
     constructor() {
         super('GameScene')
@@ -21,9 +22,18 @@ export default class GameScene extends Phaser.Scene {
 
     create() {
         this.power = 0
+        const width_2 = +this.sys.game.config.width/2
 
-        const ball = this.ball = this.physics.add.sprite(+this.sys.game.config.width/2,0,"ball")
+        let zone = this.zone = this.add.zone(width_2, 200, 100, 100)
+        this.physics.world.enable(zone)
+        let body = this.zone.body as Phaser.Physics.Arcade.Body
+        body.setAllowGravity(false)
+        body.moves = false
+
+        const ball = this.ball = this.physics.add.sprite(width_2,0,"ball")
         ball.setGravityY(100)
+
+        this.physics.add.overlap(ball, zone)
 
         // this.input.on('pointerdown', this.jump, this)
         this.input.on('pointerdown', this.startJump, this)
@@ -47,6 +57,9 @@ export default class GameScene extends Phaser.Scene {
     }
 
     update() {
+        if (!this.zone) return
+        let body = this.zone.body as Phaser.Physics.Arcade.Body
+        body.debugBodyColor = body.touching.none ? 0x00ffff : 0xffff00
     }
 
     // jump() {
