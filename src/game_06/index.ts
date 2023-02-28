@@ -3,7 +3,7 @@ import GameScene from "./scenes/GameScene"
 
 const gameConfig: Types.Core.GameConfig = {
     type: Phaser.AUTO,
-    width: 640, height: 480,
+    width: 400, height: 400,
     backgroundColor: '#336699',
     /*/
     scale: {
