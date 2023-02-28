@@ -2,12 +2,13 @@
 // noinspection JSUnusedGlobalSymbols
 
 import Phaser from 'phaser'
-
-const tileSize = 100
-const SIZE = 4
-const toRow = (n: number) => Math.floor(n / SIZE)
-const toCol = (n: number) => n % SIZE
-const fieldArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+import {
+    tileSize,
+    // SIZE,
+    toRow,
+    toCol,
+    fieldArray,
+} from '../constants'
 
 export default class GameScene extends Phaser.Scene {
 
