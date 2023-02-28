@@ -19,6 +19,17 @@ export default class GameScene extends Phaser.Scene {
     }
 
     create() {
+        // console.log(Phaser.Input.Keyboard.KeyCodes)
+        const keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
+        const keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A)
+        const keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
+        const keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
+
+        keyW.on('down', () => console.log("keyW"))
+        keyA.on('down', () => console.log("keyA"))
+        keyS.on('down', () => console.log("keyS"))
+        keyD.on('down', () => console.log("keyD"))
+
         this.addTwo()
     }
 
