@@ -7,6 +7,7 @@ const tileSize = 100
 const SIZE = 4
 const toRow = (n: number) => Math.floor(n / SIZE)
 const toCol = (n: number) => n % SIZE
+const fieldArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 export default class GameScene extends Phaser.Scene {
 
@@ -25,10 +26,10 @@ export default class GameScene extends Phaser.Scene {
         const keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
         const keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
 
-        keyW.on('down', () => console.log("keyW"))
-        keyA.on('down', () => console.log("keyA"))
-        keyS.on('down', () => console.log("keyS"))
-        keyD.on('down', () => console.log("keyD"))
+        keyW.on('down', this.moveUp, this)
+        keyA.on('down', this.moveLeft, this)
+        keyS.on('down', this.moveDown, this)
+        keyD.on('down', this.moveRight, this)
 
         this.addTwo()
     }
@@ -37,7 +38,12 @@ export default class GameScene extends Phaser.Scene {
     }
 
     addTwo() {
-        const rnd = Phaser.Math.Between(0, 15)
+        let rnd = 0
+        do {
+            rnd = Phaser.Math.Between(0, 15)
+        } while (fieldArray[rnd])
+        fieldArray[rnd] = 2
+
         const container = this.add.container(toCol(rnd) * tileSize, toRow(rnd) * tileSize)
         const tile = this.add.sprite(0, 0, "tile").setOrigin(0,0)
         container.add(tile)
@@ -55,11 +61,29 @@ export default class GameScene extends Phaser.Scene {
                 this.tweens.killTweensOf(tile)
                 //     updateNumbers();
                 //     canMove=true;
-                console.log("123:", rnd)
+                console.log("rnd:", rnd)
             }
         })
+    }
 
+    moveUp() {
+        console.log("keyW")
+        this.addTwo()
+    }
 
+    moveLeft() {
+        console.log("keyA")
+        this.addTwo()
+    }
+
+    moveDown() {
+        console.log("keyS")
+        this.addTwo()
+    }
+
+    moveRight() {
+        console.log("keyD")
+        this.addTwo()
     }
 
 }
