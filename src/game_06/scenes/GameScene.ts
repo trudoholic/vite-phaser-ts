@@ -27,13 +27,13 @@ export default class GameScene extends Phaser.Scene {
 
     addTwo() {
         const rnd = Phaser.Math.Between(0, 15)
-        // console.log("123:", rnd)
-        const tile = this.add.sprite(toCol(rnd) * tileSize, toRow(rnd) * tileSize, "tile")
-        tile.setOrigin(0,0)
+        const container = this.add.container(toCol(rnd) * tileSize, toRow(rnd) * tileSize)
+        const tile = this.add.sprite(0, 0, "tile").setOrigin(0,0)
+        container.add(tile)
 
-        // const text = this.add.text(tileSize / 2, tileSize / 2, "2", {font: "bold 16px Arial", align: "center"});
-        // text.anchor.set(0.5);
-        // tile.addChild(text);
+        const style = {font: "bold 32px Arial", fill: "#336699", align: "center"}
+        const text = this.add.text(tileSize/2, tileSize/2, "2", style).setOrigin(0.5, 0.5)
+        container.add(text)
 
         tile.alpha = 0
         this.tweens.add({
